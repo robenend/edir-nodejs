@@ -45,7 +45,8 @@ exports.membersPage = (req, res, next) => {
 // Adding New Record
 exports.makeEvent = async(req, res, next) => {
     if (req.method == "POST") {
-        console.log(req.body);
+        console.log(req);
+        return;
 
         const errors = validationResult(req);
         const { body } = req;
