@@ -1,0 +1,122 @@
+<%- include('../partials/main-header',{title:'edir-Service'}); -%>
+
+    <section class="about py-5" id="about">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-10 mx-auto col-md-6 my-5">
+                    <h1 class="text-capitalize">Our <strong class="banner-title ">services</strong></h1>
+                    <p class="my-4 text-muted w-75">Our Edir provides different rental services of materials used in organizing events. Some of the major items available for rent include Modern and Traditional Cottages (Dinkuan), Dishes, Chairs and different cooking utensils. <br> Thank
+                        You For Chosing Us!</p>
+                    <a href="#store" class="btn btn-outline-secondary btn-black text-uppercase ">Explore</a>
+
+                </div>
+                <div class="col-10 mx-auto col-md-6 align-self-center my-5">
+                    <div class="about-img__container">
+                        <img src="../resources/images/decoration2.jpg" class="img-fluid" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- end of about us -->
+    <!-- store -->
+    <section id="store" class="store py-5">
+        <div class="container">
+            <!-- section title -->
+            <div class="row">
+                <div class="col-10 mx-auto col-sm-6 text-center">
+                    <h1 class="text-capitalize">our <strong class="banner-title ">store</strong></h1>
+                </div>
+            </div>
+            <!-- end of section title -->
+            <!--filter buttons -->
+            <div class="row">
+                <div class=" col-lg-8 mx-auto d-flex justify-content-around my-2 sortBtn flex-wrap">
+                    <a href="product.php" class="btn btn-outline-secondary  filter-btn m-2" data-filter="all">All</a>
+                    <a href="?cat=dish<?php if(!empty($search)){echo '&search='.$search;}?>" class="btn btn-outline-secondary  filter-btn m-2" data-filter="all">Dishes</a>
+                    <a href="?cat=denkuan<?php if(!empty($search)){echo '&search='.$search;}?>" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="cakes">Denkuan</a>
+                    <a href="?cat=chair<?php if(!empty($search)){echo '&search='.$search;}?>" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="cupcakes">Chairs</a>
+                    <a href="?cat=other<?php if(!empty($search)){echo '&search='.$search;}?>" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="sweets">Other</a>
+                </div>
+            </div>
+            <!-- search box -->
+            <div class="row">
+                <div class="col-10 mx-auto col-md-6">
+                    <form>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend ">
+                                <span class="input-group-text search-box" id="search-icon"><i class="icon-search"></i></span>
+                            </div>
+                            <input type="text" class="form-control" name="search" placeholder='item....' id="search-item">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--end of filter buttons -->
+            <!-- store  items-->
+            <div class="row" class="store-items" id="store-items">
+                <?php
+            while($rows = mysqli_fetch_array($res_data)){
+              ?>
+                    <div class="col-10 col-sm-6 col-lg-4 mx-auto my-3 store-item cakes" data-item="service">
+                        <div class="card">
+                            <a href="product_detail.php?id=<?=$rows['item_id'];?>">
+                                <div class="img-container">
+                                    <img src="../assets/image/service/<?= $rows['filename']?>" class="card-img-top store-img" alt="">
+                                    <span class="store-item-icon">
+                  <i class="fas fa-shopping-cart"></i>
+                </span>
+                                </div>
+                            </a>
+                            <div class="card-body">
+                                <div class="card-text d-flex justify-content-between text-capitalize">
+                                    <h5 id="store-item-name">
+                                        <?php echo $rows['itemName']?>
+                                    </h5>
+                                    <h5 class="store-item-value">$<strong id="store-item-price" class="font-weight-bold"><?php echo $rows['price']?></strong></h5>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end of card-->
+                    </div>
+
+                    <?php
+            }
+            mysqli_close($connection);
+            ?>
+            </div>
+        </div>
+    </section>
+    <!--end of store items -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item active">
+                <a class="page-link" href="?pageno=1&cat=<?=$cat?><?php if(!empty($search)){echo '&search='.$search;}?>#store" tabindex="-1">First</a>
+            </li>
+            <li class="page-item active <?php if($pageno <= 1){ echo 'disabled'; } ?>">
+                <a class="page-link" href="<?php if($pageno <= 1){ echo '#store'; } else { echo " ?pageno=".($pageno - 1); } ?>&cat=<?=$cat?><?php if(!empty($search)){echo '&search='.$search;}?>#store">Prev</a>
+            </li>
+            <li class="page-item active <?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
+                <a class="page-link" href="<?php if($pageno >= $total_pages){ echo '#store'; } else { echo " ?pageno=".($pageno + 1); } ?>&cat=<?=$cat?><?php if(!empty($search)){echo '&search='.$search;}?>#store">Next</a>
+            </li>
+            <li class="page-item active">
+                <a class="page-link" href="?pageno=<?php echo $total_pages; ?>&cat=<?=$cat?><?php if(!empty($search)){echo '&search='.$search;}?>#store">Last</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- modal-container -->
+    <div class="container-fluid ">
+        <div class="row lightbox-container align-items-center">
+            <div class="col-10 col-md-10 mx-auto text-right lightbox-holder">
+                <span class="lightbox-close"><i class="fas fa-window-close"></i></span>
+                <div class="lightbox-item"></div>
+                <span class="lightbox-control btnLeft"><i class="fas fa-caret-left"></i></span>
+                <span class="lightbox-control btnRight"><i class="fas fa-caret-right"></i></span>
+            </div>
+
+        </div>
+    </div>
+
+    <%- include('../partials/main-footer'); -%>

@@ -1,0 +1,246 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+  font-family: "Poppins", sans-serif;
+  scroll-behavior: smooth;
+}
+
+img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.wrapper {
+  display: block;
+  justify-content: space-between;
+}
+.main {
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+p {
+  color: black;
+  font-size: 1.6rem;
+  margin-bottom: 0.9em;
+  margin-top: 5px;
+  line-height: 2.5rem;
+  font-weight: 300;
+  letter-spacing: 0.05rem;
+}
+
+h1 {
+  padding-top: 0.2em;
+  font-size: 20px;
+  text-transform: capitalize;
+  padding-bottom: 0.3em;
+}
+
+.main,
+.sidebar {
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.sidebar {
+  background-color: rgba(246, 246, 246, 0.3);
+  margin-right: 2em;
+  width: 100%;
+  height: 100%;
+  position: -webkit-sticky;
+  padding: 0em 3em;
+  padding-right: 4em;
+  position: sticky;
+  top: 0;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+.row {
+  display: flex;
+}
+.row .image-post {
+  display: none;
+  width: 50%;
+  border-radius: 1em 0em 0em 1em;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+}
+
+.post-container .row .content {
+  padding-left: 2em;
+}
+
+.row a {
+  color: #3399ff;
+  font-size: 1.6rem;
+  margin-top: 5em;
+  line-height: 2.5rem;
+  font-weight: 300;
+  letter-spacing: 0.05rem;
+  cursor: pointer;
+}
+
+.post-item {
+  flex-basis: 80%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: rgba(246, 246, 246, 0.3);
+  background-size: cover;
+  margin: 0 4em 3em 3em;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.notification-item {
+  flex-basis: 80%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 10px;
+  background-size: cover;
+
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.row a:hover {
+  text-decoration: underline #3399ff solid;
+}
+
+.row a:hover .icon {
+  display: flex;
+}
+.row .icon {
+  display: none;
+  width: 15px;
+}
+
+.notification {
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
+  padding: 3em;
+}
+.content {
+  padding-right: 2.5em;
+  padding-bottom: 12px;
+  padding-left: 10em;
+  margin-left: 2em;
+}
+
+.service-item .image {
+  padding: 0;
+  margin-bottom: 2em;
+}
+
+.notification-content {
+  padding-right: 1.4em;
+  padding-bottom: 12px;
+}
+
+.notification h1 {
+  font-size: 24px;
+  padding-bottom: 12px;
+}
+.content h1 {
+  font-size: 24px;
+  margin-top: 10px;
+  padding-top: 15px;
+}
+.notification h1 {
+  text-transform: capitalize;
+  padding-bottom: 0.9em;
+}
+.notification .notification-content a {
+  text-decoration: underline #3399ff solid;
+  cursor: pointer;
+  display: flex;
+  font-size: 1.6rem;
+  margin-bottom: 0.9em;
+  margin-top: 5px;
+  line-height: 2.5rem;
+  font-weight: 300;
+  letter-spacing: 0.05rem;
+}
+
+.notification .notification-content a:hover {
+  color: #3399ff;
+}
+
+@media only screen and (min-width: 768px) {
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0px;
+  }
+
+  .main,
+  .sidebar {
+    border-radius: 10px;
+    background-color: #fff;
+  }
+
+  .main {
+    width: 55%;
+  }
+
+  .sidebar {
+    width: 45%;
+    height: 100%;
+    position: -webkit-sticky;
+    padding: 0em 3em;
+    padding-right: 4em;
+  }
+}
+
+@media only screen and (min-width: 987px) {
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0px;
+  }
+
+  .content {
+    margin: 0;
+  }
+  .content h1 {
+    padding-left: 0px;
+  }
+
+  .post-item .image-post {
+    display: flex;
+    height: 40vh;
+    padding: 0;
+    margin: 0;
+  }
+  .main,
+  .sidebar {
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  .sidebar {
+    width: 33%;
+  }
+  .main {
+    width: 66%;
+  }
+}

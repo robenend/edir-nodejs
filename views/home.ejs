@@ -1,0 +1,44 @@
+<%- include('./partials/header'); -%>
+    <%- include('./partials/navigation'); -%>
+
+        <div id="container">
+            <div class="box">
+                <h2>Courses Overview </h2>
+                <div class="cards-custom">
+                    <% 
+		if(data.length > 0){
+            data.forEach(function(data){
+        %>
+                        <article class="card-custom">
+                            <a href="#">
+                                <figure class="card-thumb">
+                                    <img src="<%= data.imagePath %>" alt="Course Image">
+                                </figure>
+                                <div class="card-content">
+                                    <h3 class="card-title">
+                                        <%= data.title %>
+                                    </h3>
+                                    <h4 class="card-title"> (
+                                        <%= data.code %>)</h4>
+                                    <p class="card-excerpt">
+                                        <%= data.description %>
+                                    </p>
+                                </div>
+                            </a>
+                        </article>
+                        <%
+          });
+        }
+		else{
+        %>
+                            <article class="card-custom">
+                                <div class="card-content">
+                                    <h2 class="card-title"> No Data Found </h2>
+                                </div>
+                            </article>
+                            <% } %>
+                </div>
+            </div>
+        </div>
+
+        <%- include('./partials/footer'); -%>

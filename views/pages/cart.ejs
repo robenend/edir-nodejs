@@ -1,0 +1,149 @@
+<%- include('../partials/main-header',{title:'edir-timeline'}); -%>
+
+    <div class="page-header text-center" style="background-image: url('../resources/images/dinkuan.jpg')">
+        <div class="container">
+            <h1 class="page-title" STYLE="color: white">Shopping Cart<span STYLE="color: orange">Shop</span></h1>
+        </div>
+        <!-- End .container -->
+    </div>
+    <!-- End .page-header -->
+
+    <div class="page-content">
+        <div class="cart">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <table class="table table-cart table-mobile">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                while($rows = mysqli_fetch_array($res_data)){
+                                    ?>
+                                    <form method="POST">
+                                        <tr>
+                                            <input type="hidden" name="item_id" value="<?=$rows['item_id']?>" />
+                                            <td class="product-col">
+                                                <div class="product">
+                                                    <figure class="product-media">
+                                                        <a href="#">
+                                                            <img src="../assets/image/service/<?php
+                                                                $return = relateService($connection, $rows);
+                                                                echo $return['filename'];
+                                                                ?>" alt="Product image">
+                                                        </a>
+                                                    </figure>
+
+                                                    <h3 class="product-title">
+                                                        <a href="#">
+                                                            <?php
+                                                        $return = relateService($connection, $rows);
+                                                        echo $return['itemName'];
+                                                        ?>
+                                                        </a>
+                                                    </h3>
+                                                    <!-- End .product-title -->
+                                                </div>
+                                                <!-- End .product -->
+                                            </td>
+                                            <td class="price-col">$
+                                                <?php
+                                                        $return = relateService($connection, $rows);
+                                                        echo $return['price'];
+                                                        ?>
+                                            </td>
+                                            <td class="quantity-col">
+                                                <div class="cart-product-quantity">
+                                                    <input type="number" name="qty" class="form-control" value="<?=$rows['quantity']?>" min="1" max="<?php $return = relateService($connection, $rows); echo $return['quantity']?>" step="1" data-decimals="0" required>
+                                                </div>
+                                                <!-- End .cart-product-quantity -->
+                                            </td>
+                                            <td class="total-col">$
+                                                <?php
+                                                        $return = relateService($connection, $rows);
+                                                        $total_price =  (double)$return['price'] * (double)$rows['quantity'];
+                                                        echo $total_price;
+                                                        ?>
+                                            </td>
+                                            <input type="hidden" name="cart_id" value="<?=$rows['cart_id']?>">
+                                            <td class="remove-col"><button type="submit" name="remove" class="btn-remove"><i class="icon-close"></i></button></td>
+                                            <td class="remove-col"><button type="submit" name="refresh" class="btn-remove"><i class="icon-refresh"></i></button></td>
+                                        </tr>
+                                    </form>
+                                    <?php
+                                    }
+                                ?>
+                            </tbody>
+                        </table>
+                        <!-- End .table table-wishlist -->
+                    </div>
+                    <!-- End .col-lg-9 -->
+                    <aside class="col-lg-3">
+                        <div class="summary summary-cart">
+                            <h3 class="summary-title">Cart Total</h3>
+                            <!-- End .summary-title -->
+
+                            <table class="table table-summary">
+                                <tbody>
+                                    <tr class="summary-shipping">
+                                        <td>Items:</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <?php $sub_result = mysqli_query($connection, $subtotal_query);
+                                        while($crow = mysqli_fetch_array($sub_result)){?>
+
+                                    <tr class="summary-shipping-row">
+                                        <td>
+                                            <div class="">
+                                                <label class="" for="standart-shipping"><?php echo relateService($connection,$crow)['itemName'];?>:</label>
+                                            </div>
+                                        </td>
+                                        <td>$
+                                            <?php
+                                        $return = relateService($connection, $crow);
+                                        $total_price =  (double)$return['price'] * (double)$crow['quantity'];
+                                        echo $total_price;
+                                    ?>
+                                        </td>
+                                    </tr>
+                                    <!-- End .summary-shipping-row -->
+
+                                    <?php }
+                                    mysqli_close($connection);
+                                ?>
+                                    <tr class="summary-total">
+                                        <td>Total:</td>
+                                        <td>$
+                                            <?=$subtotal_price?>
+                                        </td>
+                                    </tr>
+                                    <!-- End .summary-total -->
+                                </tbody>
+                            </table>
+                            <!-- End .table table-summary -->
+
+                            <a href="checkout.php" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</a>
+                        </div>
+                        <!-- End .summary -->
+
+                        <a href="product.php" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i class="icon-refresh"></i></a>
+                    </aside>
+                    <!-- End .col-lg-3 -->
+                </div>
+                <!-- End .row -->
+            </div>
+            <!-- End .container -->
+        </div>
+        <!-- End .cart -->
+    </div>
+    <!-- End .page-content -->
+
+    <%- include('../partials/main-footer'); -%>

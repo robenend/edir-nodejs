@@ -1,0 +1,54 @@
+<%- include('../partials/header',{title:'Password Rest'}); -%>
+   
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-7 mx-auto">
+            <div class="card text-center">
+                <div class="card-header bg-primary">
+                    <h3>Forgot Password </h3>
+                </div>
+			 
+					<form action="" method="POST" name="sendLink">     				
+						<div class="row">
+							<div class="col-10 mb-3 float-center" style = "padding-left:40px">		
+								<label for="user_femail" class="float-left">Email Address</label>
+								<input type="email" class="form-control" 
+									name="email" id="user_femail" 
+									autocomplete="off" placeholder="Enter your email">
+							</div>
+						</div>
+						<% 
+						if(typeof msg !== 'undefined' && msg != "")
+						{ 
+						%>
+							<div class="col-12">
+								<div class="success-msg">
+									<%= msg %>									
+									<a href="./login" style = "font-weight: bold">Login</a>							
+								</div>									
+							</div>
+						<% 
+						}								
+						if(typeof error !== 'undefined' && error != "")
+						{ 
+						%>
+							<div class="col-12">
+								<div class="err-msg">
+									<%= error %>
+								</div>									
+							</div>
+						<% 
+						} 
+						%>
+						
+						<div class="col-3 form-btns">
+							<input type="submit" value="Send link">
+						</div>	
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- include('../partials/footer'); -%>

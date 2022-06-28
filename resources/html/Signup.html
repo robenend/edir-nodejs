@@ -1,0 +1,291 @@
+<?php
+  $server="localhost";
+  $user="root";
+  $password="";
+  $db_name="edir";
+
+
+// Create connection
+$connection = new mysqli($server, $user, $password, $db_name);
+// Check connection
+if ($connection->connect_error) {
+   die("Connection failed: " . $connection->connect_error);
+}
+  echo "Connected successfully";
+
+
+
+  
+  if(isset($_POST['registration']))
+  {
+      $firstname=$_POST['Fname'];
+      $middlename=$_POST['Mname'];
+      $lastname=$_POST['Lname'];
+      $gender=$_POST['gender'];
+      $region=$_POST['Region'];
+      $city=$_POST['City'];
+      $zone=$_POST['Zone'];
+      $woreda=$_POST['Woreda'];
+      $hnumber=$_POST['Hnum'];
+      $phone=$_POST['Pnum'];
+      $email=$_POST['email'];
+      $password=$_POST['Password'];
+      $dob=$_POST['birthday'];
+
+
+
+      $query="INSERT INTO signup (fname, mname, lname, dob ,gender, region, city, zone, woreda, housenum, phonenum, email, password)
+      VALUES('$firstname','$middlename','$lastname','$dob','$gender','$region','$city','$zone','$woreda','$hnumber','$phonenum','$email','$password')";
+
+      if(mysqli_query($connection, $query))
+      {
+          echo "Form Inserted Succesfully!";
+      }
+      
+      mysqli_close($connection);
+  }
+
+?>
+
+<!DOCTYPE html>
+<!--This page is a registration page to sign up for the edir website-->
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Sign Up</title>
+    <link href="css/signup.css" type="text/css" 
+ rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <div class="navigation">
+            <nav>
+                <table>
+                    <tr>
+                        <td width="30"></td>
+                        <td width="830"><h1><a href="home.html">Edir-Site</a></h1></td>
+                        <td><a href="home.html">HOME</a>/</td>
+                        <td><a href="#">ABOUT</a>/</td>
+                        <td><a href="services.html">SERVICE</a>/</td>
+                        <td><a href="events.html">EVENTS</a>/</td>
+                        <td><a href="#">MEMBERS</a>/</td>
+                        <td><a href="contact.html">CONTACT</a></td>
+                        <td width="5"></td>
+                        <td></td>
+                        <td width="30"></td>
+                    </tr>
+                </table>
+                <hr>
+           </nav>
+        </div>
+    </header>
+    <div class="form">
+        <form action="registration.php" method="post">
+            <table>
+                <tr>
+                    <td colspan="3" align="center">                        
+                        <h2>Sign-Up for Edir</h2>
+                        <p>Please fill the following form properly inorder to sign-up and click on register to submit and register. </p>
+                        <form action="#" method="get"> <!-- action will be inserted -->
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120px"></td></td>
+                    <td width="35%" valign="top">
+                <fieldset>
+                    
+                    <legend>
+                        
+                        <big><b>Your Details:</b></big>
+                    </legend>
+                        <p>Please enter your personal information.<br/><em> It is mandatory that the following spaces are filled.</em></p>
+                        <br>
+                        <label>
+                        First Name: 
+                        <br>
+                        <input type="text" name="Fname" placeholder="First Name" size="30" maxlength="100" required>
+                        </label>
+                        <br>
+                        <label>
+                        Middle Name:
+                        <br>
+                        <input type="text" name="Mname" placeholder="Middle Name" size="30" maxlength="100" required >
+                        </label>
+                        <br>
+                        <label>
+                        
+                        Last Name:
+                        <br>
+                        <input type="text" name="Lname" placeholder="Last Name" size="30" maxlength="100" required>
+                        </label>
+                        <br />
+                        <br />
+                        <label for="Date_of_Birth">Date of Birth:</label>
+                        <input type="date" name="birthday"  id="Date_of_Birth"/>
+                        <br/>
+                        <br/>
+                        <label>
+                            Gender:
+                            <input id="female" type="radio" name="gender"
+                            value="f">
+                            <label for="female">Female</label>
+                            <input id="male" type="radio" name="gender" 
+                            value="m">
+                            <label for="male">Male</label>
+
+                        </label>
+                        <br/>
+                        <br />
+                        
+                        <fieldset>
+                            <legend><b>Address</b></legend>
+                            <label>
+                                <p><em>Enter your proper adress here.</em></p>
+                                Region: <br>
+                                <input type="text" name="Region" placeholder="Region" size="30" maxlength="100" required>
+                                
+                            </label>
+                            <br />
+                            <label>
+                                City: <br>
+                                <input type="text" name="City" placeholder="City" size="30" maxlength="100" required>
+                            </label>
+                            <br />
+                            <label>
+                                Zone/Sub City: <br>
+                                <input type="text" name="Zone" placeholder="Zone" size="30" maxlength="100" required>					
+                            </label>
+                            <br />
+                            <label>
+                                Woreda/Kebele: <br>
+                                <input type="text" name="Woreda" placeholder="Woreda/Kebele" size="30" maxlength="100" required>					
+                            </label>
+                            <br />
+                            <label>
+                                House Number <br>
+                                <input type="number" name="Hnum" placeholder="House Number" size="25" maxlength="15">
+                                
+                            </label>
+                            <br />
+                            <label>
+                                Phone Number<br>
+                                <input type="tel" name="Pnum"placeholder="Phone Number" size="25" maxlength="15" required>
+                                
+                            </label>
+                            <br />
+                            <label>
+                            Email: <br>
+                            <input type="email" name="email" placeholder="Email" size="30" maxlength="100" >
+
+                            <br />
+                            </label>
+                            <label>
+                            Password: <br>
+                            <input type="Password" name="Password" placeholder="Password" size="30" maxlength="100" >
+                            </label>
+                        </fieldset>
+                
+                </fieldset>	
+
+                </td>
+
+                    <td with=50% valign="top">
+                        
+                        
+                        
+                    
+                    </td>
+                    <td width="50px">
+                        
+                    </td>
+
+                    <tr >
+                        <td colspan="3" align="center">
+                        <label>
+                            <input type="submit" name="register" value="Register"> 
+                        </label>
+                        </td>
+                    </tr>
+                </tr>
+
+            </table>
+        </form>
+    </div>
+    <br><br>
+    <footer>
+        <div class="contact">
+            <hr>
+            <table>
+                <tr>
+                    <td></td>
+                    <td colspan="5" align="right"><h1 align="center">Contact Us</h1></td>
+                </tr>
+                <tr>
+                    <td width="150"></td>
+                <td>
+                    <figure>
+                          <img src="down.png" alt="Picture of administrator" width="40">
+                        <figcaption>Ato. Mulugeta Belay</figcaption>
+                    </figure>
+                    
+                    Title:Administrator</br>
+                    e-mail:admin@gmail.com</br>
+                    Phone:091113****
+        
+                </td>
+                <td >
+                    <figure>
+                          <img src="down.png" alt="Picture of Secratary" width="40">
+                        <figcaption>Ato. Abdi Mohammed</figcaption>
+                    </figure>
+                    
+                    Title:Secratary</br>
+                    e-mail:Secret@gmail.com</br>
+                    Phone:091113****
+                </td>
+        
+                <td>
+                </td>	
+                <td >
+                    <figure>
+                          <img src="down.png" alt="Picture of Accountant" width="40">
+                        <figcaption>Dr. Solomon Tayae</figcaption>
+                    </figure>
+                    
+                    Title:Accountant</br>
+                    e-mail:Account@gmail.com</br>
+                    Phone:091113****
+        
+                </td>
+                <td>
+                    <figure>
+                          <img src="down.png" alt="Picture of Materials managment" width="40">
+                        <figcaption>Ato. Bekalu Habtae</figcaption>
+                    </figure>
+                    
+                    Title:Materials managment</br>
+                    e-mail:MM@gmail.com</br>
+                    Phone:091113****
+                </td>
+                </tr>
+            </table>
+        </div>        
+        <div class="footer">
+            <hr>
+            <table>
+                 <tr>
+                    <td width="40"></td>
+                    <td width="40"><a href="#"><img width="30" src="resources\images\instagram.png" alt="instagram_logo"></a></td>
+                    <td width="40"><a href="#"><img width="30" src="resources\images\facebook.png" alt="facebook_logo"></a></td>
+                    <td width="40"><a href="#"><img width="30" src="resources\images\twitter.png" alt="twitter_logo"></a></td>
+                    <td width="700"></td>
+                    <td><p>&copy;2021 Edir-Website-All rights Reserved</p></td>
+                    <td width="30"></td>
+                </tr>
+            </table>
+        </div>
+    </footer>
+</body>
+</html>

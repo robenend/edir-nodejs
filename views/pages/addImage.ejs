@@ -1,0 +1,76 @@
+
+<%- include('../partials/header'); -%>
+<%- include('../partials/navigation'); -%>
+
+<div class="container p-2">
+    <div class="row">
+        <div class="col-md-7 mx-auto container1">
+			<div class="card text-center">
+				<div class="card-header bg-secondary">
+					<h3>Add/Change Course Image</h3>
+				</div>			
+						
+				<div class="card-body">
+					<form action="" method="POST" enctype="multipart/form-data" >
+						<div class="row">
+							<div class="col-12 mb-2 ml-4">		
+								<label for="course_title" class="float-left">Course Title: </label>	
+								<label style="padding-left:10px" for="course_code" 
+									class="float-left"><%= data.title %></label>
+							</div>					
+						</div>
+						
+						<div class="row">
+							<div class="col-12 mb-2 ml-4">		
+								<label for="course_code" class="float-left">Course Code:</label>	
+								<label style="padding-left:10px" for="course_code" 
+										class="float-left"><%= data.code %></label>
+					
+								<input type="hidden" class="input" name="course_code"
+										id="course_code">
+							</div>
+						</div>						
+						<div class = "row">						
+							<div class="col-12 mb-2">			
+								<label for="course_img" class="float-left">Course Image/Icon </label>
+								<input type="file" class="input"  
+										name="course_img" id="course_img">
+							</div>
+						</div>
+	
+						<% 
+							if(typeof msg != 'undefined' && msg != "")
+							{ 
+							%>
+								<div class="col-12">
+									<div class="success-msg">
+										<%= msg %>
+									</div>									
+								</div>
+							<% 
+							}
+									
+							if(typeof error !== 'undefined' && error != "")
+							{ 
+							%>
+								<div class="col-12">
+									<div class="err-msg">
+										<%= error %>
+									</div>									
+								</div>
+							<% 
+							} 
+							%>
+							
+						<div class="col-3 form-btns">
+							<input type="submit" value="Upload">
+						</div>							
+					</form>
+					
+				</div>	<!-- end of card-body class -->
+			</div>	<!-- end of column class -->
+		</div>	<!-- end of row class -->
+	</div>	<!-- end of card class -->
+</div> 	<!-- end of container class -->
+
+<%- include('../partials/footer'); -%>

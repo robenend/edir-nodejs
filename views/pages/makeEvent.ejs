@@ -1,0 +1,123 @@
+<%- include('../partials/main-header',{title:'edir-timeline'}); -%>
+
+    <main class="main">
+        <div class="page-header text-center" style="background-image: url('../resources/images/edir-hero.jpg')">
+            <div class="container">
+                <h1 class="page-title" STYLE="color: Black">Make Event</h1>
+            </div>
+            <!-- End .container -->
+        </div>
+        <!-- End .page-header -->
+
+
+        <div class="page-content">
+            <div class="checkout">
+                <div class="container">
+                    <!-- End .checkout-discount -->
+                    <div class="row mt-2">
+                        <div class="col-lg-9">
+                            <form method="POST" enctype="multipart/form-data">
+                                <h2 class="widget-title">Make Event</h2>
+                                <!-- End .checkout-title -->
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Title *</label>
+                                        <input type="text" name="title" class="form-control" required>
+                                    </div>
+                                    <!-- End .col-sm-6 -->
+
+                                    <div class="col-sm-6">
+                                        <label>Date Of Event *</label>
+                                        <input type="date" name="doe" class="form-control" required>
+                                    </div>
+                                    <!-- End .col-sm-6 -->
+                                </div>
+                                <!-- End .row -->
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Event Type *</label>
+                                        <select class="form-control" name="eventType">
+                                        <option selected>Select Event Type</option>
+                                        <option value="Graduation">Graduation</option>
+                                        <option value="Wedding">Wedding</option>
+                                        <option value="Funeral">Funeral</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Image *</label>
+                                        <input type="file" accept="image/*" name="uploadfile" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <label>Description (optional)</label>
+                                <textarea class="form-control" name="description" cols="30" rows="4"></textarea>
+
+                                <button type="submit" name="submit" class="btn btn-outline-primary-2 btn-block">
+                                Post Event
+                            </button>
+                            </form>
+                        </div>
+                        <!-- End .col-lg-9 -->
+
+                        <aside class="col-lg-3">
+                            <div class="sidebar">
+                                <div class="widget">
+                                    <h3 class="widget-title">Your Posts</h3>
+                                    <!-- End .widget-title -->
+
+                                    <ul class="posts-list">
+                                        <?php
+                                    while($rows = mysqli_fetch_array($result)){
+                                    ?>
+                                            <li>
+                                                <figure>
+                                                    <a href="#">
+                                                <img src="../assets/image/<?= $rows['filename']?>" alt="post">
+                                            </a>
+                                                </figure>
+
+                                                <div>
+                                                    <span><?= $rows['date_updated']?></span>
+                                                    <h4>
+                                                        <a href="editEvent.php?slug=<?= $rows['slug']?>">
+                                                            <?= $rows['title']?>
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                            </li>
+                                            <?php
+                                    }
+                                    mysqli_close($connection);
+                                    ?>
+                                    </ul>
+                                    <!-- End .posts-list -->
+                                </div>
+                                <!-- End .widget -->
+
+                                <div class="widget widget-text">
+                                    <h3 class="widget-title">About Event</h3>
+                                    <!-- End .widget-title -->
+
+                                    <div class="widget-text-content">
+                                        <p>Here, you can add posts and send invitation cards using the the file uploading option on the form provided. But, if invitation card is not mandatory, you can just upload any descriptive image of your desire. .</p>
+                                    </div>
+                                    <!-- End .widget-text-content -->
+                                </div>
+                                <!-- End .widget -->
+                            </div>
+                            <!-- End .sidebar -->
+                        </aside>
+                        <!-- End .col-lg-3 -->
+
+                    </div>
+                </div>
+                <!-- End .container -->
+            </div>
+            <!-- End .checkout -->
+        </div>
+        <!-- End .page-content -->
+    </main>
+    <%- include('../partials/main-footer'); -%>

@@ -1,0 +1,89 @@
+
+<%- include('../partials/header'); -%>
+<%- include('../partials/navigation'); -%>
+
+<div class="container">        
+     <div class="card">
+        <div class="card-header bg-primary text-white">
+			<h2>CRUD RESTful API using Node.js (Express.js) and MySQL Database</h2>
+        </div>
+								
+		<% 
+		if(typeof msg != 'undefined' && msg != "")
+		{ 
+		%>
+			<div class="col-12">
+				<div class="success-msg">
+					<%= msg %>
+				</div>									
+			</div>
+		<% } %>
+				
+        <div class="card-body">
+			<form action="" method="POST">
+				<div class="row">
+					<div class="col-12 mb-3">		
+						<label for="course_title">Search by: </label>
+						<select style = "margin-left: 10px; width: 250px;" name = "searchBy">
+							<option value="" disabled selected>Choose course title/code  </option>
+							<option value="course_code" > Course Code </option>
+							<option value="course_title" > Course Title </option>
+						</select>
+
+						<input type="text" name="search_Key" style = "margin-left: 50px; width: 350px;" 
+							id="search-Key" Placeholder="Enter course title/code">
+							
+						<input type="submit" value="Search"
+							style="display: inline-block; width: 100px; padding: 5px 10px;  
+								background-color: brown;	text-align: center;">
+					</div>
+				</div>
+			</form>
+			
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Course Code</th>
+                        <th>Course Title</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Certificate</th>
+						<th> Duration (in Months)</th>
+						<th> Cost (in ETB)</th>
+						<th colspan=3> Action </th>
+                    </tr>
+					
+					<% if(data.length > 0){
+                        data.forEach(function(data){
+                    %>
+					<tr>
+                        <td><%= data.code %></td>
+                        <td><%= data.title %></td>
+                        <td><%= data.description %></td>
+                        <td><%= data.category %></td>
+						<td><%= data.certificate %></td>
+						<td><%= data.duration %></td>
+						<td><%= data.cost %></td>
+                        <td> <a href="./edit/<%= id = data.code%>" 
+								class="btn btn-primary btn-sm">Edit</a>  </td>
+                        <td> <a href="./addImage/<%= data.code%>" 
+								class="btn btn-secondary btn-sm">Image</a>  </td>
+                        <td> <a href="./delete/<%= data.code%>" 
+								class="btn btn-danger btn-sm">Delete</a>  </td>
+                    </tr>
+				    <%
+                        });
+                    }
+	                else{
+                    %>
+                    <tr>
+                        <td colspan="5">No Data Found</td>
+                    </tr>
+                    <% } %>
+                </table>				
+            </div>
+        </div>
+   </div>
+</div> 		
+<%- include('../partials/footer'); -%>
+      

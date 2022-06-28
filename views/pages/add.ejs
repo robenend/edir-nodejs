@@ -1,0 +1,100 @@
+
+<%- include('../partials/header',{title:'Add  Record'}); -%>
+<%- include('../partials/navigation'); -%>
+
+<div class="container p-2">
+    <div class="row">
+        <div class="col-md-7 mx-auto container1">
+			<div class="card text-center">
+				<div class="card-header bg-secondary">
+					<h3>Add New Record</h3>
+				</div>
+	
+				<div class="card-body">
+					<form action="" method="POST"  class = "form-inline">
+						<div class="row">
+							<div class="col-8">		
+								<label for="course_title" class="float-left">Course Title</label>
+								<input type="text" class="input" name="course_title"
+										id="course_title" Placeholder="Enter course title">
+							</div>
+							<div class="col-4">		
+								<label for="course_code" class="float-left">Course Code</label>
+								<input type="text" class="input" name="course_code"
+										id="course_code" Placeholder="Enter course code">
+							</div>
+						</div>	
+							
+						<div class="row">
+							<div class="col-12">
+								<label for="course_desc" class="float-left">Description</label>
+								<textarea class="input" rows="2" cols="65" name="course_desc" id="course_desc" Placeholder="Provide a short description for the course ..."></textarea>
+							</div>						
+						</div>
+						
+						<div class = "row">
+							<div class="col-6">			
+								<label for="course_cat" class="float-left">Course Category</label>
+								<input type="text" class="input" 
+										name="course_cat" id="course_cat" 
+										placeholder="Course category/specialization">
+							</div>
+							<div class="col-6 mb-2">			
+								<label for="certificate" class="float-left">Certificate </label>
+								<input type="text" class="input" 
+										name="certificate" id="certificate" 
+										placeholder="Enter certificate type">
+							</div>
+						</div>
+										
+						<div class = "row">
+							<div class="col-6">			
+								<label for="course_dur" class="float-left">Course Duration</label>
+								<input type="text" class="input" 
+										name="course_dur" id="course_dur" 
+										placeholder="Course duration in months (number)">
+							</div>
+							<div class="col-6 mb-2">			
+								<label for="course_cost" class="float-left">Course Cost </label>
+								<input type="text" class="input" 
+										name="course_cost" id="course_cost" 
+										placeholder="Course cost in ETB (+v numeric)">
+							</div>
+						</div>
+	
+						<% 
+							if(typeof msg != 'undefined' && msg != "")
+							{ 
+							%>
+								<div class="col-12">
+									<div class="success-msg">
+										<%= msg %>
+									</div>									
+								</div>
+							<% 
+							}
+									
+							if(typeof error !== 'undefined' && error != "")
+							{ 
+							%>
+								<div class="col-12">
+									<div class="err-msg">
+										<%= error %>
+									</div>									
+								</div>
+							<% 
+							} 
+							%>
+							
+						<div class="col-3 form-btns">
+							<input type="submit" value="Save">
+						</div>							
+					</form>
+					
+				</div>	<!-- end of card-body class -->
+			</div>	<!-- end of column class -->
+		</div>	<!-- end of row class -->
+	</div>	<!-- end of card class -->
+</div> 	<!-- end of container class -->
+
+<%- include('../partials/footer'); -%>

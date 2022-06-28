@@ -1,0 +1,61 @@
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>login</title>
+    <link rel="stylesheet" type="text/css" href="../../css/login.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+    <style>
+        .button {
+            text-decoration: none;
+            background-color: #EEEEEE;
+            color: #333333;
+            padding: 8px 12px 8px 12px;
+            border-top: 1px solid #CCCCCC;
+            border-right: 1px solid #333333;
+            border-left: 1px solid #CCCCCC;
+            border-bottom: 1px solid #333333;
+        }
+    </style>
+</head>
+
+<body>
+    <div align="right">
+        <p><a class="button" href=""> Login as Adminstrator</a> </p>
+
+    </div>
+    <form class="login-form" action="" method="post">
+        <h1>Login</h1>
+
+        <div class="txtb">
+            <input type="text" id="id-input" name="Pnum">
+            <span data-placeholder="Phone Number"></span>
+        </div>
+
+        <div class="txtb">
+            <input type="password" name="password">
+            <span data-placeholder="Password"></span>
+        </div>
+
+        <input type="submit" name="submit" class="logbtn" id="pssword-input">
+
+        <div class="bottom-text" style="font-size:16px">
+            Forgot Password?<a href="./passReset_Request"> Reset password</a>
+            <br> You Dont Have An Account?<a href="./signup"> Sign-up</a>
+        </div>
+
+    </form>
+
+    <script src="../../js/app.js"></script>
+    <script type="text/javascript">
+        $(".txtb input").on("focus", function() {
+            $(this).addClass("focus");
+        });
+
+        $(".txtb input").on("blur", function() {
+            if ($(this).val() == "")
+                $(this).removeClass("focus");
+        });
+    </script>
+
+    <%- include('../partials/footer'); -%>
