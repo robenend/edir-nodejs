@@ -50,6 +50,7 @@ exports.makeEvent = async(req, res, next) => {
         const errors = validationResult(req);
         const { body } = req;
 
+        console.log(body);
         if (!errors.isEmpty()) {
             return res.render('pages/add', {
                 error: errors.array()[0].msg,
