@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-10 mx-auto col-md-6 align-self-center my-5">
                         <div class="about-img__container">
-                            <img src="../resources/images/events2.jpg" class="img-fluid" alt="">
+                            <img src="../../images/events2.jpg" class="img-fluid" alt="">
                         </div>
                     </div>
                 </div>
@@ -41,11 +41,11 @@
             <!--filter buttons -->
             <div class="row">
                 <div class=" col-lg-8 mx-auto d-flex justify-content-around my-2 sortBtn flex-wrap">
-                    <a href="event.php" class="btn btn-outline-secondary  filter-btn m-2" data-filter="all">All</a>
-                    <a href="?cat=graduation<?php if(!empty($search)){echo '&search='.$search;}?>" class="btn btn-outline-secondary  filter-btn m-2" data-filter="all">Graduation</a>
-                    <a href="?cat=wedding<?php if(!empty($search)){echo '&search='.$search;}?>" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="cakes">Wedding</a>
-                    <a href="?cat=funeral<?php if(!empty($search)){echo '&search='.$search;}?>" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="cupcakes">Funeral</a>
-                    <a href="?cat=other<?php if(!empty($search)){echo '&search='.$search;}?>" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="sweets">Other</a>
+                    <a href="/event" class="btn btn-outline-secondary  filter-btn m-2" data-filter="all">All</a>
+                    <a href="/event/?cat=graduation" class="btn btn-outline-secondary  filter-btn m-2" data-filter="all">Graduation</a>
+                    <a href="/event/?cat=wedding" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="cakes">Wedding</a>
+                    <a href="/event/?cat=funeral" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="cupcakes">Funeral</a>
+                    <a href="/event/?cat=other" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="sweets">Other</a>
                 </div>
             </div>
             <div class="row">
@@ -65,32 +65,36 @@
 
                 <div class="products">
                     <div class="row justify-content-center" id="post">
-                        <?php
-                while($rows = mysqli_fetch_array($res_data)){
-                  ?>
+                        <% if(res_data.length > 0){
+                            res_data.forEach(function(rows){
+                        %>
                             <div class="col-6 col-md-4 col-lg-4 col-xl-3" data-layout="fitRows">
                                 <div class="product product-7 text-center">
                                     <article class="entry entry-grid text-center">
                                         <figure class="entry-media">
                                             <a>
-                                <img src="../assets/image/<?php echo $rows['filename']?>" alt="image desc">
-                            </a>
+                                                <img src="../../image/<%= rows.filename %>" alt="image desc">
+                                            </a>
                                         </figure>
                                         <!-- End .entry-media -->
 
                                         <div class="entry-body">
                                             <div class="entry-meta">
                                                 <a href="#">
-                                                    <?= $rows['date_updated']?>
+                                                    <%= rows.date_updated %>
                                                 </a>
                                                 <span class="meta-separator">|</span>
-                                                <a href="#">by <?php
-                                    $ret = relateUser($connection,$rows);
-                                    echo $ret["fName"];
-                                ?></a>
+                                                <a href="#">by <%= %></a>
                                                 <span class="meta-separator">|</span>
-                                                <a href="editEvent.php?slug=<?=$rows['slug']?>">
-                                                    <?php if($_SESSION['user_id']==$rows['user_id']){echo 'edit';}?>
+                                                <a href="event/editEvent/<%= slug = rows.slug %>">
+                                                    <%= app.use(function(req, res, next) {
+                                                           var user_id = req.session.userId;
+                                                            if(user_id == rows.userId)
+                                                                 'edit';
+
+                                                            next(); 
+                                                    });
+                                                    %>
                                                 </a>
                                             </div>
 
@@ -122,31 +126,17 @@
                                 </div>
                                 <!-- End .entry-item -->
                             </div>
-                            <?php
+                            <%
+                        });
                     }
-                    mysqli_close($connection);
-                ?>
+                    else{
+                    %>
+                                <tr>
+                                    <td colspan="5">No Data Found</td>
+                                </tr>
+                                <% } %>
                     </div>
                 </div>
-            </div>
-
-            <div class="mt-3">
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item active">
-                            <a class="page-link" href="?pageno=1&cat=<?=$cat?><?php if(!empty($search)){echo " &search=".$search;} ?>#post" tabindex="-1">First</a>
-                        </li>
-                        <li class="page-item active <?php if($pageno <= 1){ echo 'disabled'; } ?>">
-                            <a class="page-link" href="<?php if($pageno <= 1){ echo '#post'; } else { echo " ?pageno=".($pageno - 1); } ?>&cat=<?=$cat?><?php if(!empty($search)){echo " &search=".$search;} ?>#">Prev</a>
-                        </li>
-                        <li class="page-item active <?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
-                            <a class="page-link" href="<?php if($pageno >= $total_pages){ echo '#post'; } else { echo " ?pageno=".($pageno + 1); } ?>&cat=<?=$cat?><?php if(!empty($search)){echo " &search=".$search;} ?>#post">Next</a>
-                        </li>
-                        <li class="page-item active">
-                            <a class="page-link" href="?pageno=<?php echo $total_pages; ?>&cat=<?=$cat?><?php if(!empty($search)){echo " &search=".$search;} ?>#post">Last</a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
         </div>
 

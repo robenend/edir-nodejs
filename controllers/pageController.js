@@ -43,12 +43,14 @@ exports.aboutPage = (req, res, next) => {
 
 // members Page
 exports.membersPage = (req, res, next) => {
-    var search;
+    var search, sql;
     if (req.method == 'GET') {
         if (req.query.search) {
             search = req.query.search;
+            sql = `select * from user where fName like '%${search}%' or lName like '%${search}%' `;
+        } else {
+            sql = "select * from user";
         }
-        var sql = `select * from user where search like '%${search}%'`;
 
         dbConn.query(sql, function(error, result) {
             if (error) {
@@ -72,7 +74,6 @@ exports.makeEvent = async(req, res, next) => {
         const errors = validationResult(req);
         const { body } = req;
 
-        console.log(body);
         if (!errors.isEmpty()) {
             return res.render('pages/add', {
                 error: errors.array()[0].msg,
@@ -85,8 +86,6 @@ exports.makeEvent = async(req, res, next) => {
 
             var query3 = "INSERT INTO eventpost (user_id, eventType, title, eventDescription, filename, doe, slug) VALUES(?, ?, ?, ?, ?, ?,?)";
             var slug = slugify(body.eventType + ' ' + body.title + new Date().getTime());
-
-            console.log(req.body);
 
             var filename = "filename";
             dbConn.query(query3, [userId, body.eventType, body.title, body.description, filename, body.doe, slug],
@@ -116,20 +115,73 @@ exports.makeEvent = async(req, res, next) => {
 };
 
 exports.eventPage = async(req, res, next) => {
-    res.render("pages/event");
+    var sql, search, cat;
+
+    if (req.method == "GET") {
+        search = req.query.search;
+
+        if (req.query.cat) {
+            cat = req.query.cat;
+            sql = `SELECT * FROM eventpost where eventType = '${cat}' ORDER BY doe DESC limit 6`;
+
+            if (req.query.search) {
+
+                if (search !== "") {
+                    sql = `SELECT * FROM eventpost where title like '%${search}%' AND eventType = '${cat}' ORDER BY doe limit 6`;
+                }
+            }
+
+            if (cat == '' || cat == 'all') {
+                sql = "SELECT * FROM eventpost ORDER BY doe DESC LIMIT 6";
+
+                if (search !== '') {
+                    sql = `SELECT * FROM eventpost where title like '%${search}%' ORDER BY doe DESC LIMIT 6`;
+                }
+            }
+
+        } else {
+            cat = 'all';
+            sql = "SELECT * FROM eventpost ORDER BY doe DESC LIMIT 6";
+
+            if (search !== "") {
+
+                sql = `SELECT * FROM eventpost where title like '%${search}%' ORDER BY doe DESC LIMIT 6`;
+
+            }
+        }
+        console.log(sql);
+
+        dbConn.query(sql, function(error, result) {
+            if (error) {
+                console.log(error);
+                throw error;
+            }
+
+            res.render("pages/event", { res_data: result });
+        });
+
+
+    } else if (req.method == "POST") {
+
+    }
 }
 
 exports.servicePage = async(req, res, next) => {
     var sql, cat, search;
     if (req.query.cat) {
         cat = req.query.cat;
-        sql = `SELECT * FROM service where itemName like '%${cat}%' ORDER BY date_updated DESC LIMIT 6`;
+        sql = `
+                        SELECT * FROM service where itemName like '%${cat}%'
+                        ORDER BY date_updated DESC LIMIT 6 `;
 
         if (req.query.search) {
             search = req.query.search;
 
             if (search !== "") {
-                sql = `SELECT * FROM service where itemName like '%${search}%' AND itemName = '%${cat}%' ORDER BY date_updated DESC LIMIT 6`;
+                sql = `
+                        SELECT * FROM service where itemName like '%${search}%'
+                        AND itemName = '%${cat}%'
+                        ORDER BY date_updated DESC LIMIT 6 `;
             }
         }
 
@@ -137,24 +189,27 @@ exports.servicePage = async(req, res, next) => {
             sql = "SELECT * FROM service ORDER BY date_updated DESC LIMIT 6";
 
             if (req.query.search !== "") {
-                sql = `SELECT * FROM service WHERE itemName like '%${search}%' ORDER BY date_updated DESC LIMIT 6`;
+                sql = `
+                        SELECT * FROM service WHERE itemName like '%${search}%'
+                        ORDER BY date_updated DESC LIMIT 6 `;
             }
         }
 
     } else {
         cat = 'all';
-        sql = `SELECT * FROM service ORDER BY date_updated DESC LIMIT 6`;
+        sql = `
+                        SELECT * FROM service ORDER BY date_updated DESC LIMIT 6 `;
 
         if (req.query.search) {
             search = req.query.search;
 
             if (search !== "") {
-                sql = `SELECT * FROM service WHERE itemName like '%${search}%' ORDER BY date_updated DESC LIMIT 6`;
+                sql = `
+                        SELECT * FROM service WHERE itemName like '%${search}%'
+                        ORDER BY date_updated DESC LIMIT 6 `;
             }
         }
     }
-
-    console.log(sql);
 
     dbConn.query(sql, function(error, result) {
         if (error) {
@@ -169,11 +224,9 @@ exports.servicePage = async(req, res, next) => {
 // timeline single post
 exports.singlePost = (req, res, next) => {
         var slug = req.params.slug;
-        console.log(slug);
-
         var query2 = `
-                    SELECT * FROM timeline where slug = '${slug}'
-                    limit 1 `;
+                        SELECT * FROM timeline where slug = '${slug}'
+                        limit 1 `;
         dbConn.query(query2, function(error, result) {
             if (error) {
                 console.log(error);
@@ -186,9 +239,9 @@ exports.singlePost = (req, res, next) => {
     //product detail page
 exports.productDetail = (req, res, next) => {
         var id = req.params.id;
-        console.log(id);
-
-        var query2 = `SELECT * FROM service where item_id = '${id}' limit 1 `;
+        var query2 = `
+                        SELECT * FROM service where item_id = '${id}'
+                        limit 1 `;
 
         dbConn.query(query2, function(error, result) {
             if (error) {
@@ -220,15 +273,15 @@ exports.editRecord = (req, res, next) => {
     cost = body.course_cost
 
     var query = `
-                    UPDATE courses SET code = "${code}", title = "${title}", ` +
+                        UPDATE courses SET code = "${code}", title = "${title}", ` +
         `
-                    description = "${description}", category = "${category}", ` +
+                        description = "${description}", category = "${category}", ` +
         `
-                    certificate = "${certificate}", duration = "${duration}", ` +
+                        certificate = "${certificate}", duration = "${duration}", ` +
         `
-                    cost = "${cost}"
-                    WHERE code = "${id}"
-                    `;
+                        cost = "${cost}"
+                        WHERE code = "${id}"
+                        `;
 
     dbConn.query(query, function(error, data) {
         if (error) {
@@ -247,8 +300,8 @@ exports.imageUploadPage = (req, res, next) => {
     var code = req.params.id; //extract course code attached to the URL
 
     var query2 = `
-                    SELECT * FROM courses WHERE code = "${code}"
-                    `;
+                        SELECT * FROM courses WHERE code = "${code}"
+                        `;
     dbConn.query(query2, function(error, result) {
         if (error) {
             console.log(error);
@@ -286,9 +339,9 @@ exports.uploadImage = (req, res, next) => {
             //console.log(imgsrc)
 
         var query2 = `
-                    UPDATE courses SET imagePath = "${imgsrc}"
-                    WHERE code = "${code}"
-                    `;
+                        UPDATE courses SET imagePath = "${imgsrc}"
+                        WHERE code = "${code}"
+                        `;
         dbConn.query(query2, function(error, result) {
             if (error) {
                 //Image is path is not added to database. Remove Uplaoded file.
@@ -316,8 +369,8 @@ exports.recordDeletePage = (req, res, next) => {
     var code = req.params.id; //Get course code to delete
 
     var query3 = `
-                    DELETE FROM courses WHERE code = "${code}"
-                    `;
+                        DELETE FROM courses WHERE code = "${code}"
+                        `;
     dbConn.query(query3, function(error) {
 
         if (error) {

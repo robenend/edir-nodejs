@@ -48,6 +48,7 @@ app.set('view engine', 'ejs'); //define the template engine to use.
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'resources')));
 app.use(express.static(path.join(__dirname, 'assets')));
+app.use(express.static(path.join(__dirname, 'profile')));
 app.use(express.urlencoded({ extended: false }));
 
 /* setup port: load default from env variable or set custom */

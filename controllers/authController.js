@@ -55,7 +55,6 @@ exports.homePage = (req, res, next) => {
             }
         }
 
-        console.log(sql);
         dbConn.query(sql, async(error, result) => {
             if (error) {
                 console.log(error);
