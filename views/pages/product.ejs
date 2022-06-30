@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-10 mx-auto col-md-6 align-self-center my-5">
                     <div class="about-img__container">
-                        <img src="../resources/images/decoration2.jpg" class="img-fluid" alt="">
+                        <img src="../../images/decoration2.jpg" class="img-fluid" alt="">
                     </div>
                 </div>
             </div>
@@ -34,11 +34,11 @@
             <!--filter buttons -->
             <div class="row">
                 <div class=" col-lg-8 mx-auto d-flex justify-content-around my-2 sortBtn flex-wrap">
-                    <a href="product.php" class="btn btn-outline-secondary  filter-btn m-2" data-filter="all">All</a>
-                    <a href="?cat=dish<?php if(!empty($search)){echo '&search='.$search;}?>" class="btn btn-outline-secondary  filter-btn m-2" data-filter="all">Dishes</a>
-                    <a href="?cat=denkuan<?php if(!empty($search)){echo '&search='.$search;}?>" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="cakes">Denkuan</a>
-                    <a href="?cat=chair<?php if(!empty($search)){echo '&search='.$search;}?>" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="cupcakes">Chairs</a>
-                    <a href="?cat=other<?php if(!empty($search)){echo '&search='.$search;}?>" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="sweets">Other</a>
+                    <a href="/service" class="btn btn-outline-secondary  filter-btn m-2" data-filter="all">All</a>
+                    <a href="/service/?cat=dish" class="btn btn-outline-secondary  filter-btn m-2" data-filter="all">Dishes</a>
+                    <a href="/service/?cat=denkuan" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="cakes">Denkuan</a>
+                    <a href="/service/?cat=chair" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="cupcakes">Chairs</a>
+                    <a href="/service/?cat=other" class="btn btn-outline-secondary btn-black text-uppercase filter-btn m-2" data-filter="sweets">Other</a>
                 </div>
             </div>
             <!-- search box -->
@@ -57,55 +57,40 @@
             <!--end of filter buttons -->
             <!-- store  items-->
             <div class="row" class="store-items" id="store-items">
-                <?php
-            while($rows = mysqli_fetch_array($res_data)){
-              ?>
+                <% if(res_data.length > 0){
+                    res_data.forEach(function(row){
+                %>
                     <div class="col-10 col-sm-6 col-lg-4 mx-auto my-3 store-item cakes" data-item="service">
                         <div class="card">
-                            <a href="product_detail.php?id=<?=$rows['item_id'];?>">
+                            <a href="/product_detail/<%= id = row.item_id %>">
                                 <div class="img-container">
-                                    <img src="../assets/image/service/<?= $rows['filename']?>" class="card-img-top store-img" alt="">
-                                    <span class="store-item-icon">
-                  <i class="fas fa-shopping-cart"></i>
-                </span>
+                                    <img src="../../image/service/<%= row.filename %>" class="card-img-top store-img" alt="">
                                 </div>
                             </a>
                             <div class="card-body">
                                 <div class="card-text d-flex justify-content-between text-capitalize">
                                     <h5 id="store-item-name">
-                                        <?php echo $rows['itemName']?>
+                                        <%= row.itemName%>
                                     </h5>
-                                    <h5 class="store-item-value">$<strong id="store-item-price" class="font-weight-bold"><?php echo $rows['price']?></strong></h5>
+                                    <h5 class="store-item-value">$<strong id="store-item-price" class="font-weight-bold"><%= row.price %></strong></h5>
                                 </div>
                             </div>
                         </div>
                         <!-- end of card-->
                     </div>
-
-                    <?php
-            }
-            mysqli_close($connection);
-            ?>
+                    <%
+                        });
+                    }
+                    else{
+                    %>
+                        <tr>
+                            <td colspan="5">No Data Found</td>
+                        </tr>
+                        <% } %>
             </div>
         </div>
     </section>
     <!--end of store items -->
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            <li class="page-item active">
-                <a class="page-link" href="?pageno=1&cat=<?=$cat?><?php if(!empty($search)){echo '&search='.$search;}?>#store" tabindex="-1">First</a>
-            </li>
-            <li class="page-item active <?php if($pageno <= 1){ echo 'disabled'; } ?>">
-                <a class="page-link" href="<?php if($pageno <= 1){ echo '#store'; } else { echo " ?pageno=".($pageno - 1); } ?>&cat=<?=$cat?><?php if(!empty($search)){echo '&search='.$search;}?>#store">Prev</a>
-            </li>
-            <li class="page-item active <?php if($pageno >= $total_pages){ echo 'disabled'; } ?>">
-                <a class="page-link" href="<?php if($pageno >= $total_pages){ echo '#store'; } else { echo " ?pageno=".($pageno + 1); } ?>&cat=<?=$cat?><?php if(!empty($search)){echo '&search='.$search;}?>#store">Next</a>
-            </li>
-            <li class="page-item active">
-                <a class="page-link" href="?pageno=<?php echo $total_pages; ?>&cat=<?=$cat?><?php if(!empty($search)){echo '&search='.$search;}?>#store">Last</a>
-            </li>
-        </ul>
-    </nav>
     <!-- modal-container -->
     <div class="container-fluid ">
         <div class="row lightbox-container align-items-center">

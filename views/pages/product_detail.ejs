@@ -1,0 +1,87 @@
+<%- include('../partials/main-header',{title:'edir-service-detail'}); -%>
+
+    <div class="page-content">
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="product-details-top">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="product-gallery">
+                                    <figure class="product-main-image">
+                                        <img id="product-zoom" src="../../image/service/<%= row.filename%>" data-zoom-image="assets/images/products/single/sidebar-gallery/1-big.jpg" alt="product image">
+                                    </figure>
+                                    <!-- End .product-main-image -->
+                                </div>
+                                <!-- End .product-gallery -->
+                            </div>
+                            <!-- End .col-md-6 -->
+
+                            <div class="col-md-6">
+                                <form method="POST">
+                                    <div class="product-details product-details-sidebar">
+                                        <h1 class="product-title">
+                                            <%= row.itemName %>
+                                        </h1>
+                                        <!-- End .product-title -->
+
+                                        <div class="product-price">
+                                            $
+                                            <%= row.price %>
+                                        </div>
+                                        <!-- End .product-price -->
+
+                                        <div class="product-content">
+                                            <p>
+                                                <%= row.description%>
+                                            </p>
+                                        </div>
+                                        <!-- End .product-content -->
+
+                                        <div class="product-details-footer details-footer-col">
+                                            <div class="product-cat">
+                                                <span>Category:</span>
+                                                <a>Rental</a>
+                                            </div>
+                                            <!-- End .product-cat -->
+                                        </div>
+                                        <!-- End .product-details-footer -->
+
+                                        <div class="product-details-action">
+                                            <div class="details-action-col">
+                                                <label for="qty">Qty:</label>
+                                                <div class="product-details-quantity">
+                                                    <input type="number" id="qty" name="product-qty" class="form-control" value="1" min="1" max="<%= row.quantity %>" step="1" data-decimals="0" required>
+                                                </div>
+
+                                                <label for="date_start">Start Date:</label>
+                                                <div class="product-details-quantity">
+                                                    <input type="date" id="date_start" name="date_start" class="form-control" required>
+                                                </div>
+
+                                                <label for="date_return">Return Date:</label>
+                                                <div class="product-details-quantity">
+                                                    <input type="date" id="date_return" name="date_return" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <!-- End .details-action-col -->
+                                            <input type="hidden" name="product-id" value="<% row.item_id %>">
+                                            <button type="submit" name="product-submit" class="btn-product btn-cart"><span>Add to cart</span></a>
+                                    </div><!-- End .product-details-action -->
+                                </div><!-- End .product-details -->
+                            </form>
+                        </div><!-- End .col-md-6 -->
+                    </div><!-- End .row -->
+                </div><!-- End .product-details-top -->
+                        <!-- End .owl-carousel -->
+            </div>
+            <!-- End .col-lg-9 -->
+        </div>
+        <!-- End .row -->
+
+    </div>
+    <!-- End .container -->
+</div>
+        <!-- End .page-content -->
+
+        <%- include('../partials/main-footer'); -%>

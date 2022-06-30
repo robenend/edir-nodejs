@@ -11,115 +11,65 @@ const md5 = require('md5')
 
 // Home Page
 exports.homePage = (req, res, next) => {
-    var pageno, search, offset, no_of_records_per_page, total_pages_sql, sql;
-    var total_rows, total_pages, cat;
+
+    var search, offset, no_of_records_per_page, sql;
+    var cat;
 
     if (req.method == 'GET') {
-
-        if (req.query.pageno) {
-            pageno = req.query.pageno
-        } else {
-            pageno = 1;
-        }
-
         if (req.query.search) {
             search = req.query.search;
         } else {
             search = "";
         }
 
-
-        no_of_records_per_page = 6;
-        offset = (pageno - 1) * no_of_records_per_page;
-        total_pages_sql = "SELECT COUNT(*) as num FROM timeline";
-
-        function getValue(callback) {
-            dbConn.query(total_pages_sql, async(error, result) => {
-
-                if (error) {
-                    console.log(error);
-                    throw error;
-                }
-
-                total_rows = result[0].num;
-                total_pages = Math.ceil(total_rows / no_of_records_per_page);
-
-                // res.render('pages/timeline', { total_pages: total_pages });
-                return total_pages;
-            });
-
-        }
-
         if (req.query.category) {
             cat = req.query.category;
-            sql = `SELECT * FROM timeline where category = '${cat}' ORDER BY date_updated desc LIMIT ${offset}, ${no_of_records_per_page }`;
+            sql = `SELECT * FROM timeline where category = '${cat}' ORDER BY date_updated desc`;
 
             if (req.query.search) {
                 search = req.query.search
 
                 if (search !== "") {
-                    sql = `SELECT * FROM timeline where title like '%${search}%' AND category = '${cat}' ORDER BY date_updated desc LIMIT ${offset} , ${no_of_records_per_page}`;
+                    sql = `SELECT * FROM timeline where title like '%${search}%' AND category = '${cat}' ORDER BY date_updated desc`;
                 }
             }
 
             if (cat == '' || cat == 'all') {
-                sql = `SELECT * FROM timeline ORDER BY date_updated desc LIMIT ${offset}, ${no_of_records_per_page}`;
+                sql = `SELECT * FROM timeline ORDER BY date_updated desc`;
 
                 if (search !== "") {
-                    sql = `SELECT * FROM timeline where title like '%${search}%' ORDER BY date_updated desc LIMIT ${ offset }, ${no_of_records_per_page}`;
+                    sql = `SELECT * FROM timeline where title like '%${search}%' ORDER BY date_updated desc`;
                 }
             }
 
         } else {
             cat = 'all';
-            sql = `SELECT * FROM timeline ORDER BY date_updated desc LIMIT ${offset}, ${ no_of_records_per_page}`;
+            sql = `SELECT * FROM timeline ORDER BY date_updated desc`;
 
             if (req.query.search) {
                 search = req.query.search
 
                 if (search !== "") {
-                    sql = `SELECT * FROM timeline where title like '%${search}%' ORDER BY date_updated desc LIMIT ${ offset }, ${ no_of_records_per_page }`;
+                    sql = `SELECT * FROM timeline where title like '%${search}%' ORDER BY date_updated desc`;
                 }
             }
         }
+
+        console.log(sql);
+        dbConn.query(sql, async(error, result) => {
+            if (error) {
+                console.log(error);
+                throw error;
+            }
+
+            res.render('pages/timeline', { res_data: result });
+        });
 
     } else if (req.method == 'POST') {
         const { body } = req;
 
     }
 
-    var res_data, old_sql, old_data;
-
-    dbConn.query(sql, async(error, result) => {
-        if (error) {
-            console.log(error);
-            throw error;
-        }
-        res_data = result;
-
-        res.render('pages/timeline', { res_data: result });
-
-    });
-
-    // console.log(res_data);
-    old_sql = "SELECT * FROM timeline ORDER BY date_updated DESC limit 3";
-    dbConn.query(old_sql, async(error, result) => {
-        if (error) {
-            console.log(error);
-            throw error;
-        }
-
-        res_data = result;
-        // res.render('pages/timeline', { old_data: old_data });
-    });
-
-
-    var fnum = qc.queryCount(search, 'funeral');
-    var wnum = qc.queryCount(search, 'wedding');
-    var gnum = qc.queryCount(search, 'graduation');
-
-
-    // res.render('pages/timeline', { fnum: fnum, wnum: wnum, gnum: gnum });
 }
 
 // Register Page
@@ -250,7 +200,7 @@ exports.sendResetPassLink = (req, res, next) => {
                 res.render('auth/passReset_Request', { error: 'Something goes to wrong. Please try again' })
             }
         } else {
-            console.log('2');
+
             res.render('auth/passReset_Request', { error: 'The Email is not registered with us' })
         }
     });
