@@ -14,7 +14,9 @@ const {
     servicePage,
     singlePost,
     productDetail,
-    aboutPage
+    aboutPage,
+    editEvent,
+    download
 } = require("../controllers/pageController");
 
 const { isLoggedin } = require('../lib/check_authentication');
@@ -32,6 +34,11 @@ router.post('/event/makeEvent', isLoggedin, makeEvent);
 router.get('/event', isLoggedin, eventPage);
 router.post('/event', isLoggedin, eventPage);
 
+router.get('/event/edit/:slug', isLoggedin, editEvent);
+router.post('/event/edit/:slug', isLoggedin, editEvent);
+
+router.get('/event/download/:path', isLoggedin, download);
+router.post('/event/download/:path', isLoggedin, download);
 
 router.get('/timeline/single_post/:slug', isLoggedin, singlePost);
 router.post('/timeline/single_post/:slug', isLoggedin, singlePost);

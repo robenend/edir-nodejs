@@ -1,13 +1,16 @@
 const fs = require('fs')
 const path = require('path');
+const moment = require('moment');
+const download = require('express-fileupload')
 const { validationResult } = require("express-validator");
 const slugify = require('slugify')
 const dbConn = require("../config/db_Connection")
 const validator = require('../lib/validation_rules');
 const { uploadImage, uploadCSVFile } = require('../lib/fileUpload');
 const { title } = require('process');
+const { request } = require('http');
 
-// Record Display Page
+// Record contact Page
 exports.contactPage = (req, res, next) => {
     var query1;
     if (req.method == 'GET') {
@@ -102,9 +105,7 @@ exports.makeEvent = async(req, res, next) => {
                         });
                     }
 
-                    res.render("pages/event", {
-                        msg: 'Record successfully added!',
-                    });
+                    res.redirect("/event", );
                 });
         } catch (e) {
             next(e);
@@ -114,17 +115,19 @@ exports.makeEvent = async(req, res, next) => {
     }
 };
 
+//event page
 exports.eventPage = async(req, res, next) => {
     var sql, search, cat;
 
     if (req.method == "GET") {
-        search = req.query.search;
+        if (req.query.search && req.query.search !== undefined)
+            search = req.query.search;
 
         if (req.query.cat) {
             cat = req.query.cat;
             sql = `SELECT * FROM eventpost where eventType = '${cat}' ORDER BY doe DESC limit 6`;
 
-            if (req.query.search) {
+            if (search) {
 
                 if (search !== "") {
                     sql = `SELECT * FROM eventpost where title like '%${search}%' AND eventType = '${cat}' ORDER BY doe limit 6`;
@@ -143,13 +146,12 @@ exports.eventPage = async(req, res, next) => {
             cat = 'all';
             sql = "SELECT * FROM eventpost ORDER BY doe DESC LIMIT 6";
 
-            if (search !== "") {
+            if (search !== "" && search != undefined) {
 
                 sql = `SELECT * FROM eventpost where title like '%${search}%' ORDER BY doe DESC LIMIT 6`;
 
             }
         }
-        console.log(sql);
 
         dbConn.query(sql, function(error, result) {
             if (error) {
@@ -157,7 +159,7 @@ exports.eventPage = async(req, res, next) => {
                 throw error;
             }
 
-            res.render("pages/event", { res_data: result });
+            res.render("pages/event", { res_data: result, user_id: req.session.userID, moment: moment });
         });
 
 
@@ -166,6 +168,8 @@ exports.eventPage = async(req, res, next) => {
     }
 }
 
+
+//service page
 exports.servicePage = async(req, res, next) => {
     var sql, cat, search;
     if (req.query.cat) {
@@ -221,36 +225,83 @@ exports.servicePage = async(req, res, next) => {
     });
 }
 
-// timeline single post
-exports.singlePost = (req, res, next) => {
-        var slug = req.params.slug;
-        var query2 = `
-                        SELECT * FROM timeline where slug = '${slug}'
-                        limit 1 `;
+//edit event
+exports.editEvent = (req, res, next) => {
+    var slug;
+    const { body } = req;
+
+    if (req.method == "GET") {
+
+        slug = req.params.slug;
+
+        var query2 = `SELECT * FROM eventPost where slug = '${slug}' limit 1 `;
         dbConn.query(query2, function(error, result) {
             if (error) {
                 console.log(error);
                 throw error;
             }
 
-            res.render("pages/single_blog", { row: result[0] });
+            res.render("pages/editEvent", { row: result[0] });
+        });
+
+    } else if (req.method == "POST") {
+        slug = req.params.slug;
+        var query2 = `UPDATE eventPost SET title = '${body.title}', eventDescription = '${body.description}', eventType = '${body.eventType}' where slug = '${slug}' and user_id = ${req.session.userID} limit 1 `;
+
+        dbConn.query(query2, function(error, result) {
+            if (error) {
+                console.log(error);
+                throw error;
+            }
+            res.redirect("/event");
         });
     }
-    //product detail page
+}
+
+// timeline single post
+exports.singlePost = (req, res, next) => {
+    var slug = req.params.slug;
+
+    var query2 = `SELECT * FROM timeline where slug = '${slug}' limit 1 `;
+    dbConn.query(query2, function(error, result) {
+        if (error) {
+            console.log(error);
+            throw error;
+        }
+
+        res.render("pages/single_blog", { row: result[0] });
+    });
+}
+
+//product detail page
 exports.productDetail = (req, res, next) => {
-        var id = req.params.id;
-        var query2 = `
+    var id = req.params.id;
+    var query2 = `
                         SELECT * FROM service where item_id = '${id}'
                         limit 1 `;
 
-        dbConn.query(query2, function(error, result) {
-            if (error) {
-                console.log(error);
-                throw error;
-            }
+    dbConn.query(query2, function(error, result) {
+        if (error) {
+            console.log(error);
+            throw error;
+        }
 
-            res.render("pages/product_detail", { row: result[0] });
-        });
+        res.render("pages/product_detail", { row: result[0] });
+    });
+}
+
+//download image
+exports.download = (req, res, next) => {
+        if (req.method == "GET") {
+            var path = req.params.path;
+            console.log(__dirname);
+            res.download(__dirname + "/../assets/image/" + path, function(err) {
+                if (err) {
+                    res.redirect('/event');
+                }
+            });
+
+        }
     }
     /* Record Editing Page */
 exports.editRecord = (req, res, next) => {

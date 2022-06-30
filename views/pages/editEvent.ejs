@@ -1,0 +1,88 @@
+<%- include('../partials/main-header',{title:'edit Event'}); -%>
+
+    <main class="main">
+        <div class="page-header text-center" style="background-image: url('../resources/images/edir-hero.jpg')">
+            <div class="container">
+                <h1 class="page-title">Update Event</h1>
+            </div>
+            <!-- End .container -->
+        </div>
+        <!-- End .page-header -->
+
+
+        <div class="page-content">
+            <div class="checkout">
+                <div class="container">
+                    <!-- End .checkout-discount -->
+                    <div class="row mt-2">
+                        <div class="col-lg-8">
+                            <form method="POST">
+                                <h2 class="widget-title">Update Event</h2>
+                                <!-- End .checkout-title -->
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Title *</label>
+                                        <input type="text" name="title" value="<%=row.title%>" class="form-control" required>
+                                    </div>
+                                    <!-- End .col-sm-6 -->
+
+                                    <div class="col-sm-6">
+                                        <label>Date Of Event *</label>
+                                        <input type="date" name="doe" value="<%= row.doe%>" class="form-control" required>
+                                    </div>
+                                    <!-- End .col-sm-6 -->
+                                </div>
+                                <!-- End .row -->
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Event Type *</label>
+                                        <select class="form-control" name="eventType">
+                                        <option value="Graduation" <% if(row.eventType == "Graduation"){%> selected <% } %>>Graduation</option>
+                                        <option value="Wedding"   <% if(row.eventType == "Wedding"){%> selected <% } %>>Wedding</option>
+                                        <option value="Funeral"    <% if(row.eventType == "Funeral"){%> selected <% } %>>Funeral</option>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label>Image *</label>
+                                        <input type="file" accept="image/*" name="uploadfile" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <label>Description (optional)</label>
+                                <textarea class="form-control" name="description" cols="30" rows="4"><%= row.eventDescription %></textarea>
+
+                                <button type="submit" name="submit" class="btn btn-outline-primary-2 btn-block">
+                                    Update Event
+                                </button>
+                            </form>
+                        </div>
+                        <!-- End .col-lg-9 -->
+
+                        <aside class="col-lg-3">
+                            <div class="sidebar">
+
+                                <div class="widget widget-text">
+                                    <h3 class="widget-title">Edit Event</h3>
+                                    <!-- End .widget-title -->
+
+                                    <div class="widget-text-content">
+                                        <p>Here, you can edit posts and invitation cards using the the file uploading option on the form provided. But, if invitation card is not mandatory, you can just upload any descriptive image of your desire.</p>
+                                    </div>
+                                    <!-- End .widget-text-content -->
+                                </div>
+                                <!-- End .widget -->
+                            </div>
+                            <!-- End .sidebar -->
+                        </aside>
+                        <!-- End .col-lg-3 -->
+
+                    </div>
+                </div>
+                <!-- End .container -->
+            </div>
+            <!-- End .checkout -->
+        </div>
+        <!-- End .page-content -->
+    </main>

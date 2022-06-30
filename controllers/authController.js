@@ -73,7 +73,7 @@ exports.homePage = (req, res, next) => {
 
 // Register Page
 exports.registerPage = (req, res, next) => {
-    res.render("auth/register");
+    res.render("auth/register")
 };
 
 // User Registration
@@ -177,7 +177,7 @@ exports.sendResetPassLink = (req, res, next) => {
     const { body } = req;
     const email = body.email;
 
-    var query2 = 'SELECT * FROM users WHERE email ="' + email + '"';
+    var query2 = 'SELECT * FROM user WHERE email ="' + email + '"';
     dbConn.query(query2, function(err, result) {
         if (err)
             throw err;

@@ -1,7 +1,7 @@
 <%- include('../partials/main-header',{title:'edir-timeline'}); -%>
 
     <main class="main">
-        <div class="page-header text-center" style="background-image: url('../resources/images/edir-hero.jpg')">
+        <div class="page-header text-center" style="background-image: url('../../images/edir-hero.jpg')">
             <div class="container">
                 <h1 class="page-title" STYLE="color: Black">Make Event</h1>
             </div>
@@ -64,37 +64,6 @@
 
                         <aside class="col-lg-3">
                             <div class="sidebar">
-                                <div class="widget">
-                                    <h3 class="widget-title">Your Posts</h3>
-                                    <!-- End .widget-title -->
-
-                                    <ul class="posts-list">
-                                        <?php
-                                    while($rows = mysqli_fetch_array($result)){
-                                    ?>
-                                            <li>
-                                                <figure>
-                                                    <a href="#">
-                                                <img src="../assets/image/<?= $rows['filename']?>" alt="post">
-                                            </a>
-                                                </figure>
-
-                                                <div>
-                                                    <span><?= $rows['date_updated']?></span>
-                                                    <h4>
-                                                        <a href="editEvent.php?slug=<?= $rows['slug']?>">
-                                                            <?= $rows['title']?>
-                                                        </a>
-                                                    </h4>
-                                                </div>
-                                            </li>
-                                            <?php
-                                    }
-                                    mysqli_close($connection);
-                                    ?>
-                                    </ul>
-                                    <!-- End .posts-list -->
-                                </div>
                                 <!-- End .widget -->
 
                                 <div class="widget widget-text">

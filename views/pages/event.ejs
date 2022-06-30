@@ -81,42 +81,40 @@
                                         <div class="entry-body">
                                             <div class="entry-meta">
                                                 <a href="#">
-                                                    <%= rows.date_updated %>
+                                                    <%= moment(rows.doe).format('Do MMMM, YYYY'); %>
                                                 </a>
                                                 <span class="meta-separator">|</span>
                                                 <a href="#">by <%= %></a>
                                                 <span class="meta-separator">|</span>
-                                                <a href="event/editEvent/<%= slug = rows.slug %>">
-                                                    <%= app.use(function(req, res, next) {
-                                                           var user_id = req.session.userId;
-                                                            if(user_id == rows.userId)
-                                                                 'edit';
-
-                                                            next(); 
-                                                    });
+                                                <a href="event/edit/<%= slug = rows.slug %>">
+                                                    <% if(user_id == rows.user_id){
+                                                    %>
+                                                        edit
+                                                        <%
+                                                        }
                                                     %>
                                                 </a>
                                             </div>
 
                                             <h2 class="entry-title">
-                                                <a href="single.html">
-                                                    <?= $rows['title']?>
+                                                <a href="">
+                                                    <%= rows.title %>
                                                 </a>
                                             </h2>
                                             <!-- End .entry-title -->
 
                                             <div class="entry-cats">
                                                 <a href="#">
-                                                    <?= $rows['eventType']?>
+                                                    <%= rows.eventType%>
                                                 </a>
                                             </div>
                                             <!-- End .entry-cats -->
 
                                             <div class="entry-content">
                                                 <p>
-                                                    <?php echo $rows['eventDescription']?>
+                                                    <%= rows.eventDescription %>
                                                 </p>
-                                                <a href="?file=<?= $rows['filename']?>" class="read-more">Get Teri-Card</a>
+                                                <a href="/event/download/<%= path = rows.filename %>" class="read-more">Get Teri-Card</a>
                                             </div>
                                             <!-- End .entry-content -->
                                         </div>
